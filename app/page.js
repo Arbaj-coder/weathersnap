@@ -30,15 +30,12 @@ const handleUseLocation = () => {
 
   navigator.geolocation.getCurrentPosition(async (position) => {
     const { latitude, longitude } = position.coords
-    const apiKey = '439dd981583a7e63d106c942f14dee49' // Your OpenWeatherMap API key
 
     try {
-      const res = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`)
+      const res = await fetch(`/api/reverse-geocode?lat=${latitude}&lon=${longitude}`)
       const data = await res.json()
 
-      // ✅ Extract only first word of city name
       const cityName = data[0]?.name?.split(' ')[0] || 'Jaipur'
-
       router.push(`/weather?city=${encodeURIComponent(cityName)}`)
     } catch (err) {
       alert("Failed to fetch your city.")
